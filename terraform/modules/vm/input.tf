@@ -8,4 +8,3 @@ variable "subnet_id" {}
 variable "publicip_id" {}
 variable "size" {}
 variable "admin_username" {}
-variable "network_interface_ids" {}
