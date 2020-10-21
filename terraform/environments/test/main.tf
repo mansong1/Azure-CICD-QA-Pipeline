@@ -7,16 +7,16 @@ provider "azurerm" {
 }
 terraform {
   backend "azurerm" {
-    storage_account_name = "tstate1532"
+    storage_account_name = "tstate6796"
     container_name       = "tstate"
     key                  = "terraform.tfstate"
-    access_key           = "s0TtnLsXauKgd9zxabVm3vcbYrPKafTEWJeTMWuxw68GExLidS45y9DlzYqR/F45IX9N+/mokwQ12aIUGunVdA=="
+    access_key           = "wesxiq6GfGRMlZ21otiX+bPYc7YyM5o3eULIcu7Hz4Osd0FGNtijFcdSosPYIlv9DqIrbGjdKHWdchuJozGmzg=="
   }
 }
 module "resource_group" {
-  source               = "../../modules/resource_group"
-  resource_group       = var.resource_group
-  location             = var.location
+  source         = "../../modules/resource_group"
+  resource_group = var.resource_group
+  location       = var.location
 }
 module "network" {
   source               = "../../modules/network"
@@ -30,12 +30,12 @@ module "network" {
 }
 
 module "nsg-test" {
-  source           = "../../modules/networksecuritygroup"
-  location         = var.location
-  application_type = var.application_type
-  resource_type    = "NSG"
-  resource_group   = module.resource_group.resource_group_name
-  subnet_id        = module.network.subnet_id_test
+  source              = "../../modules/networksecuritygroup"
+  location            = var.location
+  application_type    = var.application_type
+  resource_type       = "NSG"
+  resource_group      = module.resource_group.resource_group_name
+  subnet_id           = module.network.subnet_id_test
   address_prefix_test = var.address_prefix_test
 }
 module "appservice" {
@@ -54,13 +54,13 @@ module "publicip" {
 }
 
 module "vm" {
-  source                = "../../modules/vm"
-  location              = var.location
-  application_type      = var.application_type
-  resource_type         = "VirtualMachine"
-  subnet_id             = module.network.subnet_id_test
-  resource_group        = module.resource_group.resource_group_name
-  publicip_id           = module.publicip.public_ip_address_id
-  admin_username        = "udacityazureuser"
-  size                  = "Standard_B1s"
+  source           = "../../modules/vm"
+  location         = var.location
+  application_type = var.application_type
+  resource_type    = "VirtualMachine"
+  subnet_id        = module.network.subnet_id_test
+  resource_group   = module.resource_group.resource_group_name
+  publicip_id      = module.publicip.public_ip_address_id
+  admin_username   = "udacityazureuser"
+  size             = "Standard_B1s"
 }
