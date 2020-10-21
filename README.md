@@ -1,4 +1,4 @@
-# Azure-EndToEnd-CICD
+# Azure-CICD-QA-Pipeline
 Udacity Azure DevOps - Ensuring Quality Releases
 
 
