@@ -1,18 +1,3 @@
-provider "azurerm" {
-  tenant_id       = var.tenant_id
-  subscription_id = var.subscription_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  features {}
-}
-terraform {
-  backend "azurerm" {
-    storage_account_name = "tstate6796"
-    container_name       = "tstate"
-    key                  = "terraform.tfstate"
-    access_key           = "wesxiq6GfGRMlZ21otiX+bPYc7YyM5o3eULIcu7Hz4Osd0FGNtijFcdSosPYIlv9DqIrbGjdKHWdchuJozGmzg=="
-  }
-}
 module "resource_group" {
   source         = "../../modules/resource_group"
   resource_group = var.resource_group
