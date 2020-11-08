@@ -111,6 +111,27 @@ stages:
                 echo "Selenium Installed"
                 sudo rm -rf chromedriver*
                 wget "https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip"
-
-                export PATH=$PATH:some/path
-      
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '*chromedriver_linux64.zip'
+              destinationFolder: ''
+              cleanDestinationFolder: true
+              overwriteExistingFiles: true
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
+                
+                sudo cp chromedriver /usr/bin
+                echo "Done Copying chromedriver to /usr/bin"
+          # Run Selelium Test
+          - task: Bash@3
+            displayName: 'The Selenium Test Test'
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
+              
+                cd /home/casita/automatedtesting/selenium/
+                python3 /home/casita/automatedtesting/selenium/login.py
