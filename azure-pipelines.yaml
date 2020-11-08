@@ -51,6 +51,14 @@ stages:
       inputs:
         script: 'newman run StarterAPIs.json'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Result Postman -  Regression test suite and Data Validation test suite'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'ResultsjunitReport.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+        mergeTestResults: true
+        testRunTitle: 'Postman Results'
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
@@ -60,7 +68,7 @@ stages:
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
       displayName: 'Upload Package'
-      artifact: drop-fakerestapi
+      artifact: drop-fakerestapi    
 - stage:
   jobs:
   - deployment: FakeRestAPI
@@ -98,7 +106,11 @@ stages:
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
+                echo "Chromium-Browser Installed"
                 pip3 install selenium
+                echo "Selenium Installed"
+                sudo rm -rf chromedriver*
+                wget "https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip"
+
                 export PATH=$PATH:some/path
-
-
+      
