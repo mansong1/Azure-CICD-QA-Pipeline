@@ -135,3 +135,17 @@ stages:
               
                 cd /home/casita/automatedtesting/selenium/
                 python3 /home/casita/automatedtesting/selenium/login.py
+  - job: Jmeter
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - task: JMeterInstaller@0
+        displayName: 'Install Jmeter 5.2.1'
+        inputs:
+          jmeterVersion: '5.2.1'
+      - task: Bash@3
+        displayName: 'Run Jmeter test'
+        inputs:
+          targetType: 'inline'
+          script: |
+            jmeter -n -t automatedtesting/jmeter/activities.jmx -Jresdir=automatedtesting/jmeter/pages.csv
