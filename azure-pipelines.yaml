@@ -14,6 +14,32 @@ stages:
         knownHostsEntry: 'KNOWN_HOSTS_STRING'
         sshPublicKey: 'PUBLIC_KEY'
         sshKeySecureFile: 'id_rsa'
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: 'latest'
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: 'environments/test'
+        backendType: 'azurerm'
+        backendServiceArm: 'Free Trial (5171e8cd-4499-4fbb-acc7-d5a5d93c16dd)'
+        backendAzureRmResourceGroupName: 'tstate'
+        backendAzureRmContainerName: 'tstate'
+        allowTelemetryCollection: true
+    - task: TerraformCLI@0
+      inputs:
+        command: 'validate'
+        allowTelemetryCollection: true
+    - task: TerraformCLI@0
+      inputs:
+        command: 'plan'
+        environmentServiceName: 'Free Trial (5171e8cd-4499-4fbb-acc7-d5a5d93c16dd)'
+        allowTelemetryCollection: true
+    - task: TerraformCLI@0
+      inputs:
+        command: 'apply'
+        environmentServiceName: 'Free Trial (5171e8cd-4499-4fbb-acc7-d5a5d93c16dd)'
+        allowTelemetryCollection: true
     - task: CmdLine@2
       displayName: Install Newman
       inputs:
@@ -24,7 +50,7 @@ stages:
       continueOnError: true
       inputs:
         script: 'newman run StarterAPIs.json'
-        workingDirectory: 'starter-code/automatedtesting/postman'
+        workingDirectory: 'automatedtesting/postman'
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
